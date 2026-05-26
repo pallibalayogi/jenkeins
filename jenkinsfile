@@ -2,6 +2,16 @@ pipeline {
 
     agent any
 
+    parameters {
+
+        string(
+            name: 'USERS',
+            defaultValue: '10',
+            description: 'Number of virtual users'
+        )
+
+    }
+
     stages {
 
         stage('Checkout Code') {
@@ -26,6 +36,7 @@ pipeline {
                 "C:\\Users\\pavan\\Downloads\\apache-jmeter-5.6.3\\apache-jmeter-5.6.3\\bin\\jmeter.bat" ^
                 -n ^
                 -t Bookstore.jmx ^
+                -Jusers=%USERS% ^
                 -l result.jtl ^
                 -e ^
                 -o report
@@ -35,13 +46,20 @@ pipeline {
 
         }
 
-    }
+        stage('Publish HTML Report') {
 
-    post {
+            steps {
 
-        always {
+                publishHTML(target: [
+                    reportDir: 'report',
+                    reportFiles: 'index.html',
+                    reportName: 'JMeter HTML Report',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: false
+                ])
 
-            archiveArtifacts artifacts: 'report/**', fingerprint: true
+            }
 
         }
 
