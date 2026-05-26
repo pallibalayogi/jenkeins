@@ -1,0 +1,23 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1779769798847,1230,CREATE_USER,200,OK,Thread Group 1-1,text,true,,1159,453,1,1,https://demoqa.com/Account/v1/User,410,0,217
+1779769798847,415,CREATE_USER-0,301,Moved Permanently,Thread Group 1-1,text,true,,398,268,1,1,http://demoqa.com/Account/v1/User,410,0,217
+1779769799275,802,CREATE_USER-1,200,OK,Thread Group 1-1,text,true,,761,185,1,1,https://demoqa.com/Account/v1/User,802,0,614
+1779769800111,1469,GENERATE_TOKEN,200,OK,Thread Group 1-1,text,true,,527,278,1,1,https://demoqa.com/Account/v1/GenerateToken,1469,0,0
+1779769801598,2,Debug Sampler,200,OK,Thread Group 1-1,text,true,,554,0,1,1,null,0,0,0
+1779769801601,263,AUTHORIZED_CHECK,200,OK,Thread Group 1-1,text,true,,246,275,1,1,https://demoqa.com/Account/v1/Authorized,263,0,0
+1779769801865,187,GET_USER_DETAILS,200,OK,Thread Group 1-1,text,true,,761,382,1,1,https://demoqa.com/Account/v1/User/,187,0,0
+1779769802053,185,DELETE_USER,200,OK,Thread Group 1-1,text,true,,761,404,1,1,https://demoqa.com/Account/v1/User/,185,0,0
+1779769802238,183,VERIFY_USER_DELETED,200,OK,Thread Group 1-1,text,true,,761,186,1,1,https://demoqa.com/Account/v1/User/,183,0,0
+1779769802422,1453,CREATE_USER,201,Created,Thread Group 1-1,text,true,,347,280,1,1,https://demoqa.com/Account/v1/User,1453,0,0
+1779769803875,1381,GENERATE_TOKEN,200,OK,Thread Group 1-1,text,true,,542,289,1,1,https://demoqa.com/Account/v1/GenerateToken,1381,0,0
+1779769805257,0,Debug Sampler,200,OK,Thread Group 1-1,text,true,,605,0,1,1,null,0,0,0
+1779769805258,217,GET_ALL_BOOKS,200,OK,Thread Group 1-1,text,true,,4762,188,1,1,https://demoqa.com/BookStore/v1/Books,217,0,0
+1779769805477,442,ADD_BOOK_USER,201,Created,Thread Group 1-1,text,true,,285,554,1,1,https://demoqa.com/BookStore/v1/Books,442,0,0
+1779769805920,185,GET_SPECIFY_BOOK,200,OK,Thread Group 1-1,text,true,,795,206,1,1,https://demoqa.com/BookStore/v1/Book?ISBN=9781449325862,184,0,0
+1779769806105,390,UPDATE_BOOK_ISBN,200,OK,Thread Group 1-1,text,true,,1176,931,1,1,https://demoqa.com/BookStore/v1/Books/9781449325862,208,0,0
+1779769806105,208,UPDATE_BOOK_ISBN-0,301,Moved Permanently,Thread Group 1-1,text,true,,415,518,1,1,http://demoqa.com/BookStore/v1/Books/9781449325862,208,0,0
+1779769806313,182,UPDATE_BOOK_ISBN-1,200,OK,Thread Group 1-1,text,true,,761,413,1,1,https://demoqa.com/BookStore/v1/Books/9781449325862,181,0,0
+1779769806495,633,DELETE_SPECIFY_BOOK,204,No Content,Thread Group 1-1,,true,,185,505,1,1,https://demoqa.com/BookStore/v1/Book,0,0,0
+1779769807129,374,DELETE_ALL_BOOKS,200,OK,Thread Group 1-1,text,true,,5163,877,1,1,https://demoqa.com/BookStore/v1/Books,189,0,0
+1779769807129,189,DELETE_ALL_BOOKS-0,301,Moved Permanently,Thread Group 1-1,text,true,,401,478,1,1,http://demoqa.com/BookStore/v1/Books,189,0,0
+1779769807318,185,DELETE_ALL_BOOKS-1,200,OK,Thread Group 1-1,text,true,,4762,399,1,1,https://demoqa.com/BookStore/v1/Books,185,0,0
