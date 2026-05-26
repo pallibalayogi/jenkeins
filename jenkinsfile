@@ -46,6 +46,26 @@ pipeline {
 
         }
 
+        stage('Validate SLA') {
+
+            steps {
+
+                script {
+
+                    def content = readFile('result.jtl')
+
+                    if (content.contains('false')) {
+
+                        error("SLA FAILED - Assertions failed")
+
+                    }
+
+                }
+
+            }
+
+        }
+
         stage('Publish HTML Report') {
 
             steps {
@@ -60,6 +80,30 @@ pipeline {
                 ])
 
             }
+
+        }
+
+    }
+
+    post {
+
+        success {
+
+            emailext(
+                subject: "Jenkins Build SUCCESS",
+                body: "JMeter pipeline executed successfully.",
+                to: "yourgmail@gmail.com"
+            )
+
+        }
+
+        failure {
+
+            emailext(
+                subject: "Jenkins Build FAILURE",
+                body: "SLA failed or pipeline execution failed.",
+                to: "yourgmail@gmail.com"
+            )
 
         }
 
