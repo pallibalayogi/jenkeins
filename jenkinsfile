@@ -1,0 +1,39 @@
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Checkout Code') {
+
+            steps {
+
+                git branch: 'main',
+                url: 'https://github.com/pallibalayogi/jenkeins.git'
+
+            }
+
+        }
+
+        stage('Run JMeter Test') {
+
+            steps {
+
+                bat '''
+                rmdir /s /q report
+
+                "C:\\Users\\pavan\\Downloads\\apache-jmeter-5.6.3\\apache-jmeter-5.6.3\\bin\\jmeter.bat" ^
+                -n ^
+                -t Bookstore.jmx ^
+                -l result.jtl ^
+                -e ^
+                -o report
+                '''
+
+            }
+
+        }
+
+    }
+
+}
