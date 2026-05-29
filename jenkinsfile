@@ -15,7 +15,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'main',
-                url: 'https://github.com/pallibalayogi/jenkeins.git'
+                    url: 'https://github.com/pallibalayogi/jenkeins.git'
             }
         }
 
@@ -26,19 +26,22 @@ pipeline {
             }
         }
 
-        stage('Run JMeter Test') {
+        stage('Run JMeter Test In Docker') {
             steps {
-                bat '''
-                rmdir /s /q report
-                del /f /q result.jtl
 
-                "C:\\Users\\pavan\\Downloads\\apache-jmeter-5.6.3\\apache-jmeter-5.6.3\\bin\\jmeter.bat" ^
+                bat '''
+                if exist report rmdir /s /q report
+                if exist result.jtl del /f /q result.jtl
+
+                docker run --rm ^
+                -v %WORKSPACE%:/test ^
+                justb4/jmeter ^
                 -n ^
-                -t Bookstore.jmx ^
+                -t /test/Bookstore.jmx ^
                 -Jusers=%USERS% ^
-                -l result.jtl ^
+                -l /test/result.jtl ^
                 -e ^
-                -o report
+                -o /test/report
                 '''
             }
         }
@@ -46,27 +49,39 @@ pipeline {
         stage('Validate SLA') {
             steps {
                 script {
+
                     def content = readFile('result.jtl')
 
                     if (content.contains('false')) {
                         error("SLA FAILED - Assertions failed")
                     }
+
+                    echo 'SLA Validation Passed'
                 }
+            }
+        }
+
+        stage('Archive Results') {
+            steps {
+                archiveArtifacts artifacts: 'result.jtl', fingerprint: true
             }
         }
 
         stage('Publish HTML Report') {
             steps {
+
                 publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
                     reportDir: 'report',
                     reportFiles: 'index.html',
-                    reportName: 'JMeter HTML Report',
-                    keepAll: true,
-                    alwaysLinkToLastBuild: true,
-                    allowMissing: false
+                    reportName: 'JMeter HTML Report'
                 ])
+
             }
         }
+
     }
 
     post {
@@ -77,6 +92,10 @@ pipeline {
 
         failure {
             echo 'Pipeline FAILED'
+        }
+
+        always {
+            echo 'Pipeline Finished'
         }
     }
 }
