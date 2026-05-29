@@ -3,32 +3,31 @@ pipeline {
     agent any
 
     parameters {
-
         string(
             name: 'USERS',
             defaultValue: '10',
             description: 'Number of virtual users'
         )
-
     }
 
     stages {
 
         stage('Checkout Code') {
-
             steps {
-
                 git branch: 'main',
                 url: 'https://github.com/pallibalayogi/jenkeins.git'
-
             }
+        }
 
+        stage('Check Docker') {
+            steps {
+                bat 'docker --version'
+                bat 'docker ps'
+            }
         }
 
         stage('Run JMeter Test') {
-
             steps {
-
                 bat '''
                 rmdir /s /q report
                 del /f /q result.jtl
@@ -41,35 +40,23 @@ pipeline {
                 -e ^
                 -o report
                 '''
-
             }
-
         }
 
         stage('Validate SLA') {
-
             steps {
-
                 script {
-
                     def content = readFile('result.jtl')
 
                     if (content.contains('false')) {
-
                         error("SLA FAILED - Assertions failed")
-
                     }
-
                 }
-
             }
-
         }
 
         stage('Publish HTML Report') {
-
             steps {
-
                 publishHTML(target: [
                     reportDir: 'report',
                     reportFiles: 'index.html',
@@ -78,35 +65,18 @@ pipeline {
                     alwaysLinkToLastBuild: true,
                     allowMissing: false
                 ])
-
             }
-
         }
-
     }
 
     post {
 
         success {
-
-            emailext(
-                subject: "Jenkins Build SUCCESS",
-                body: "JMeter pipeline executed successfully.",
-                to: "yourgmail@gmail.com"
-            )
-
+            echo 'Pipeline SUCCESS'
         }
 
         failure {
-
-            emailext(
-                subject: "Jenkins Build FAILURE",
-                body: "SLA failed or pipeline execution failed.",
-                to: "yourgmail@gmail.com"
-            )
-
+            echo 'Pipeline FAILED'
         }
-
     }
-
 }
